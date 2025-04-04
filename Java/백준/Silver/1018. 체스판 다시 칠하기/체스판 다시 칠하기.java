@@ -1,13 +1,14 @@
 import java.io.*;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int chess(int N, int M, char arr[][]) throws IOException{
-        int[] cnt = new int[(N-7)*(M-7)*2];
+    static int chess(int N, int M, char arr[][]){
+        int cnt;
+        int min = 100000000;
         char comp;
         for (int n = 0; n < N-7; n++) {
             for (int m = 0; m < M-7; m++) {
+                cnt = 0;
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
                         if((j+1+i)%2==1)
@@ -15,11 +16,14 @@ public class Main {
                         else
                             comp = 'W';
                         if (arr[i+n][j+m] != comp) {
-                            cnt[n*(M-7)+m]++;
+                            cnt++;
                         }
                     }
                 }
-
+                if (cnt <= min) {
+                    min = cnt;
+                }
+                cnt = 0;
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
                         if((j+1+i)%2==0)
@@ -27,15 +31,16 @@ public class Main {
                         else
                             comp = 'W';
                         if (arr[i+n][j+m] != comp) {
-                            cnt[n*(M-7)+m+((N-7)*(M-7))]++;
+                            cnt++;
                         }
                     }
                 }
+                if (cnt <= min) {
+                    min = cnt;
+                }
             }
         }
-        Arrays.sort(cnt); // G O D
-
-        return cnt[0];
+        return min;
     }
 
     public static void main(String[] args) throws IOException {
